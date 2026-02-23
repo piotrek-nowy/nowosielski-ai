@@ -1,0 +1,46 @@
+---
+title: "Vibe coding — dzień 1"
+date: "2026-02-23"
+category: "Dziennik"
+lang: "pl"
+slug: "vibe-coding-dzien-1"
+excerpt: "Chodziło to za mną przez kilka ostatnich tygodni, aby w końcu przestać tylko gadać o tym, czego to nie da się zrobić z wykorzystaniem AI w programowaniu, tylko spróbować postawić coś samodzielnie. W weekend stworzyłem papierową instrukcję programowania z AI, przez kilka godzin rozmawiałem z Claude Opus 4.6 o tech stacku, instalacji, hostingu i GitHubie. Wydrukowałem 30-stronicowy podręcznik i ruszyłem. Kupno domeny, Vercel, instalacje, pierwszy prompt w Cursorze, pierwszy commit, deploy — 5,5 godziny i nowosielski.ai poszło live."
+---
+
+Chodziło to za mną przez kilka ostatnich tygodni, aby w końcu przestać tylko gadać o tym, czego to nie da się zrobić z wykorzystaniem AI w programowaniu, tylko spróbować postawić coś „samodzielnie".
+
+W weekend stworzyłem sobie papierową instrukcję/podręcznik „programowanie z AI", aby w końcu przygotować się do odpalenia pierwszego samodzielnego projektu online z wykorzystaniem kombinacji ai-native tech stack.
+
+W zasadzie to przez kilka godzin rozmawiałem z Claude Opus 4.6, pytając go o to, jak zacząć programować z AI, jaki tech stack wybrać, jak to wszystko zainstalować, jak skonfigurować hosting, podpiąć domenę, korzystać z githuba i czym jest to całe repozytorium.
+
+Tłumaczył, a ja pytałem, drążyłem, próbując to wszystko jakoś zrozumieć.
+
+Pytałem o możliwie najlepszy AI tech stack. Do tego z łopatologiczną instrukcją jak dla 5-latka o tym, jak korzystać z tych wszystkich narzędzi, ze słownikiem kilkudziesięciu pojęć na końcu (m.in. co to HTML, co to commit, pull request, git, github, biblioteka…. no trochę tego jest… powiedzmy, że podchodzę do tego w szkolny sposób. Back to basics. :)
+
+Tak oto udało się skompletować instrukcję, która liczy ponad 30 stron. Wydrukowałem ją sobie i zacząłem sobie czytać i lecieć wg niej + dopytywać o wszystko Claude.
+
+## Co tam mi wyszło w kilku krokach na pierwszy dzień
+
+1. **Kupno domeny: Cloudflare** — dość tego home.pl… Postawiłem na ekstrawaganckie nowosielski.ai, w sumie z racji tego, że inne kombinacje mojego imienia i nazwiska już mam na firmowych hostingach, a nie chciało mi się z tego korzystać.
+
+2. **Hosting: Vercel** — sprawia wrażenie mocno AI/startup vibe. Tu jeszcze ogarnięcie DNS itp.
+
+3. **Instalacje: git, node.js, Cursor IDE, Claude Code** — trzeba było to zrobić z poziomu terminala na Mac, co nie było dla mnie najłatwiejsze, szczególnie, że nigdy nie odpalałem takich rzeczy, może poza sytuacją, gdy przypadkowo wyklikałem jakąś kombinację przycisków.
+
+4. **Konto na GitHub** — przechowuje kod w chmurze, zarządza wersjami (jeszcze dokładnie nie wiem, co to znaczy), źródło dla Vercel. Co więcej, wszystko spięło się w taki sposób, że udało się zrobić automatyczny deploy z Github.
+
+5. **Odpalenie Cursora na Mac i podpięcie wszystkich tych programów między sobą** (Vercel, Github, Cloudflare) — jak się okazuje, one są już tak połapane, że wszystko idzie praktycznie jednym klikiem.
+
+6. **Stworzenie „promptu inicjalnego"** ze zdefiniowaniem tego, co chcę zrobić — który przygotował mi też Claude. Opisałem jakie chcę mieć sekcje na stronie i co to ma być — w skrócie, po prostu stronka domowa.
+
+7. **Wrzuciłem ten prompt inicjalny do agenta odpalonego w Cursorze** — to było w sumie śmieszne, bo trochę miałem opory przed tym, aby wrzucić go tam po raz pierwszy i zobaczyć, jak to się wszystko kręci. Parę dobrych minut mu to zajęło, ale wypluł mi pierwszą wersję strony, trochę go pomęczyłem o zmianach, następnie nauczyłem się tam pierwszej komendy `git add` + `git commit` z opisem, co zmieniam + `git push`, aby to poszło dalej.
+
+8. **W tym momencie dopiero podpiąłem domenę live pod Vercel.** Chwilę poczekałem i nowosielski.ai poszło live.
+
+9. **Pojawił się też pierwszy commit** w moim repozytorium na githubie na profilu piotrek\_nowy.
+
+10. **Trochę pozmieniałem tą stronę** — pobawiłem się warstwą wizualną i poprzestawiałem sobie kolumny, czy zmieniłem font, uprościłem koncepcję, a na koniec jeszcze dodałem część blogową — ale taką jeszcze bez Supabase. Tak oto zamknął się dzień nr 1. Łącznie 5,5 godziny.
+
+---
+
+Start mogę uznać za udany i dość lekki. Niewiele rozumiem z narzędzi, z których korzystam, ale dzięki AI poszło to po prostu tak, jakbym czytał instrukcję z Ikei do składania średnio skomplikowanego mebla.

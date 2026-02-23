@@ -10,5 +10,16 @@
     "bio_personal": "Outside of work — football, chess, and 20th century history.",
     "disclaimer": "Honestly? I don't know yet what this site will become. Maybe just a personal page, maybe a blog about what I'm learning along the way. We'll see. I'm treating it as my playground and a place to learn vibe coding — so you'll probably find a bunch of random, unrelated things here that make absolutely no sense. That's kind of the point :)",
     "disclaimer_punchline": "Stay tuned!"
+  },
+  "blog": {
+    "pageTitle": "Blog — nowosielski.ai",
+    "pageDescription": "Articles about AI, bootstrapping, learning journal and more.",
+    "heading": "Blog",
+    "subheading": "Thoughts on AI, bootstrapping and learning to code.",
+    "noPosts": "No posts yet. Stay tuned!",
+    "latestTitle": "Latest posts",
+    "latestSubtitle": "From the blog",
+    "viewAll": "View all",
+    "backToBlog": "Back to blog"
   }
 }

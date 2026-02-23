@@ -10,5 +10,16 @@
     "bio_personal": "Prywatnie — pasjonat piłki nożnej, szachów i historii XX wieku.",
     "disclaimer": "Szczerze? Nie wiem jeszcze, co dokładnie z tej strony wyjdzie. Może będzie to zwykła strona o mnie, a może blog o tym, czego się uczę. Czas pokaże. Traktuję ją jako mój plac zabaw i miejsce do nauki vibe codingu — więc prawdopodobnie znajdziesz tu sporo losowych, niezwiązanych ze sobą rzeczy, które mogą kompletnie nie mieć sensu. Ale o to właśnie chodzi :)",
     "disclaimer_punchline": "Stay tuned!"
+  },
+  "blog": {
+    "pageTitle": "Blog — nowosielski.ai",
+    "pageDescription": "Artykuły o AI, bootstrapie, dziennik nauki i więcej.",
+    "heading": "Blog",
+    "subheading": "Przemyślenia o AI, bootstrapie i nauce kodowania.",
+    "noPosts": "Brak wpisów. Wróć wkrótce!",
+    "latestTitle": "Najnowsze wpisy",
+    "latestSubtitle": "Z bloga",
+    "viewAll": "Zobacz wszystkie",
+    "backToBlog": "Wróć do bloga"
   }
 }
