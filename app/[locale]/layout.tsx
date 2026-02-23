@@ -34,7 +34,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <div
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans bg-background text-foreground`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans text-foreground`}
     >
       <NextIntlClientProvider messages={messages}>
         <Navbar />

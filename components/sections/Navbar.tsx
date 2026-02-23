@@ -8,7 +8,7 @@ import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const navKeys = ["home", "handbook", "blog", "newsletter", "company"] as const;
+const navKeys = ["home", "blog"] as const;
 
 export function Navbar() {
   const t = useTranslations("nav");
