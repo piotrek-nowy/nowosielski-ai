@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/piotrnowosielski/Projects/nowosielski-ai/app/[locale]/layout\":[\"static/media/939c4f875ee75fbb-s.p.woff2\",\"static/media/bb3ef058b751a6ad-s.p.woff2\",\"static/media/b7387a63dd068245-s.p.woff2\",\"static/media/36966cca54120369-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
