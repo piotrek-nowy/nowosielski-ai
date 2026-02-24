@@ -11,7 +11,7 @@ export async function LatestPosts() {
   if (posts.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-24">
+    <div>
       <div className="flex items-end justify-between">
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
@@ -28,7 +28,7 @@ export async function LatestPosts() {
         </Link>
       </div>
 
-      <div className="mt-10 flex max-w-3xl flex-col gap-8">
+      <div className="mt-10 flex flex-col gap-8">
         {posts.map((post) => (
           <BlogCard key={post.slug} post={post} />
         ))}
@@ -41,6 +41,6 @@ export async function LatestPosts() {
         {t("viewAll")}
         <ArrowRight className="h-3.5 w-3.5" />
       </Link>
-    </section>
+    </div>
   );
 }
