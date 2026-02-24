@@ -1,86 +1,154 @@
 "use client";
 
-import { useEffect, useRef, useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useTheme } from "next-themes";
-import { ExternalLink } from "lucide-react";
+import { Heart, MessageCircle, Repeat2, ExternalLink } from "lucide-react";
 
-const TWITTER_HANDLE = "piotrek_nowy";
-const TWEET_LIMIT = 5;
+type Tweet = {
+  id: string;
+  text: string;
+  created_at: string;
+  metrics: {
+    retweet_count: number;
+    reply_count: number;
+    like_count: number;
+    quote_count: number;
+  };
+  url: string;
+};
 
-declare global {
-  interface Window {
-    twttr?: {
-      widgets: {
-        createTimeline: (
-          source: { sourceType: string; screenName: string },
-          target: HTMLElement,
-          options: Record<string, unknown>
-        ) => Promise<HTMLElement>;
-      };
-      ready: (fn: () => void) => void;
-    };
-  }
+type TweetUser = {
+  name: string;
+  username: string;
+  profile_image_url: string;
+};
+
+type TweetsResponse = {
+  user: TweetUser;
+  tweets: Tweet[];
+};
+
+function formatRelativeTime(dateStr: string): string {
+  const now = Date.now();
+  const date = new Date(dateStr).getTime();
+  const diff = now - date;
+
+  const minutes = Math.floor(diff / 60_000);
+  const hours = Math.floor(diff / 3_600_000);
+  const days = Math.floor(diff / 86_400_000);
+
+  if (minutes < 1) return "now";
+  if (minutes < 60) return `${minutes}m`;
+  if (hours < 24) return `${hours}h`;
+  if (days < 7) return `${days}d`;
+
+  return new Date(dateStr).toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+  });
 }
 
-function loadTwitterScript(): Promise<void> {
-  return new Promise((resolve) => {
-    if (window.twttr) {
-      resolve();
-      return;
-    }
+function formatCount(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
+  return String(n);
+}
 
-    const script = document.createElement("script");
-    script.src = "https://platform.twitter.com/widgets.js";
-    script.async = true;
-    script.onload = () => {
-      window.twttr?.ready(() => resolve());
-    };
-    document.head.appendChild(script);
+function linkifyText(text: string): React.ReactNode[] {
+  const combined = /(https?:\/\/[^\s]+|@\w+|#\w+)/g;
+  const parts = text.split(combined);
+
+  return parts.map((part, i) => {
+    if (/^https?:\/\//.test(part)) {
+      const display = part.replace(/^https?:\/\/(www\.)?/, "");
+      return (
+        <a
+          key={i}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline dark:text-blue-400"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {display.length > 30 ? display.slice(0, 30) + "…" : display}
+        </a>
+      );
+    }
+    if (/^@\w+/.test(part)) {
+      return (
+        <a
+          key={i}
+          href={`https://x.com/${part.slice(1)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline dark:text-blue-400"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {part}
+        </a>
+      );
+    }
+    if (/^#\w+/.test(part)) {
+      return (
+        <a
+          key={i}
+          href={`https://x.com/hashtag/${part.slice(1)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline dark:text-blue-400"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {part}
+        </a>
+      );
+    }
+    return <span key={i}>{part}</span>;
   });
+}
+
+function TweetSkeleton() {
+  return (
+    <div className="animate-pulse rounded-xl border border-border/50 bg-card p-5">
+      <div className="flex items-start gap-3">
+        <div className="h-10 w-10 rounded-full bg-muted" />
+        <div className="flex-1 space-y-3">
+          <div className="flex items-center gap-2">
+            <div className="h-4 w-24 rounded bg-muted" />
+            <div className="h-3 w-16 rounded bg-muted" />
+          </div>
+          <div className="space-y-2">
+            <div className="h-3 w-full rounded bg-muted" />
+            <div className="h-3 w-3/4 rounded bg-muted" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function LatestTweets() {
   const t = useTranslations("tweets");
-  const { resolvedTheme } = useTheme();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
-  const renderTimeline = useCallback(async () => {
-    if (!containerRef.current || !mounted) return;
-
-    containerRef.current.innerHTML = "";
-    setLoaded(false);
-
-    try {
-      await loadTwitterScript();
-
-      if (!containerRef.current || !window.twttr) return;
-
-      await window.twttr.widgets.createTimeline(
-        { sourceType: "profile", screenName: TWITTER_HANDLE },
-        containerRef.current,
-        {
-          theme: resolvedTheme === "dark" ? "dark" : "light",
-          tweetLimit: TWEET_LIMIT,
-          chrome: "noheader nofooter noborders transparent",
-          dnt: true,
-          width: "100%",
-        }
-      );
-
-      setLoaded(true);
-    } catch {
-      setLoaded(true);
-    }
-  }, [resolvedTheme, mounted]);
+  const [data, setData] = useState<TweetsResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    renderTimeline();
-  }, [renderTimeline]);
+    fetch("/api/tweets")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch");
+        return res.json();
+      })
+      .then((json: TweetsResponse) => {
+        setData(json);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
+  }, []);
+
+  if (error) return null;
 
   return (
     <div>
@@ -92,7 +160,7 @@ export function LatestTweets() {
           <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
         <a
-          href={`https://x.com/${TWITTER_HANDLE}`}
+          href="https://x.com/piotrek_nowy"
           target="_blank"
           rel="noopener noreferrer"
           className="hidden items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground sm:flex"
@@ -102,34 +170,67 @@ export function LatestTweets() {
         </a>
       </div>
 
-      <div className="mt-8 overflow-hidden rounded-xl border border-border/50">
-        {!loaded && (
-          <div className="flex flex-col gap-4 p-5">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div
-                key={i}
-                className="animate-pulse space-y-3"
+      <div className="mt-8 flex flex-col gap-4">
+        {loading
+          ? Array.from({ length: 3 }).map((_, i) => <TweetSkeleton key={i} />)
+          : data?.tweets.map((tweet) => (
+              <a
+                key={tweet.id}
+                href={tweet.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block rounded-xl border border-border/50 bg-card p-5 transition-colors hover:border-border hover:bg-accent/30"
               >
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 shrink-0 rounded-full bg-muted" />
-                  <div className="space-y-2">
-                    <div className="h-4 w-32 rounded bg-muted" />
-                    <div className="h-3 w-20 rounded bg-muted" />
+                <div className="flex items-start gap-3">
+                  {data.user.profile_image_url && (
+                    <img
+                      src={data.user.profile_image_url}
+                      alt={data.user.name}
+                      className="h-10 w-10 rounded-full"
+                    />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="truncate text-sm font-semibold text-foreground">
+                        {data.user.name}
+                      </span>
+                      <span className="shrink-0 text-sm text-muted-foreground">
+                        @{data.user.username}
+                      </span>
+                      <span className="text-muted-foreground/50">·</span>
+                      <time className="shrink-0 text-sm text-muted-foreground">
+                        {formatRelativeTime(tweet.created_at)}
+                      </time>
+                    </div>
+
+                    <p className="mt-1.5 whitespace-pre-wrap text-[15px] leading-relaxed text-foreground/90">
+                      {linkifyText(tweet.text)}
+                    </p>
+
+                    <div className="mt-3 flex items-center gap-5 text-muted-foreground">
+                      <span className="flex items-center gap-1.5 text-xs">
+                        <MessageCircle className="h-3.5 w-3.5" />
+                        {formatCount(tweet.metrics.reply_count)}
+                      </span>
+                      <span className="flex items-center gap-1.5 text-xs">
+                        <Repeat2 className="h-3.5 w-3.5" />
+                        {formatCount(
+                          tweet.metrics.retweet_count + tweet.metrics.quote_count
+                        )}
+                      </span>
+                      <span className="flex items-center gap-1.5 text-xs">
+                        <Heart className="h-3.5 w-3.5" />
+                        {formatCount(tweet.metrics.like_count)}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2 pl-[52px]">
-                  <div className="h-3 w-full rounded bg-muted" />
-                  <div className="h-3 w-4/5 rounded bg-muted" />
-                </div>
-              </div>
+              </a>
             ))}
-          </div>
-        )}
-        <div ref={containerRef} className={loaded ? "" : "h-0 overflow-hidden"} />
       </div>
 
       <a
-        href={`https://x.com/${TWITTER_HANDLE}`}
+        href="https://x.com/piotrek_nowy"
         target="_blank"
         rel="noopener noreferrer"
         className="mt-6 inline-flex items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground sm:hidden"
