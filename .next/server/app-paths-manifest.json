@@ -1,3 +1,4 @@
 {
+  "/api/tweets/route": "app/api/tweets/route.js",
   "/[locale]/page": "app/[locale]/page.js"
 }
