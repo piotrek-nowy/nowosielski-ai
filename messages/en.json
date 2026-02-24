@@ -22,6 +22,11 @@
     "updateNote": "I'll keep updating this list.",
     "lastUpdate": "Last update"
   },
+  "tweets": {
+    "title": "Latest tweets",
+    "subtitle": "What I'm thinking about",
+    "followMe": "Follow me on X"
+  },
   "blog": {
     "pageTitle": "Blog — nowosielski.ai",
     "pageDescription": "Articles about AI, bootstrapping, learning journal and more.",

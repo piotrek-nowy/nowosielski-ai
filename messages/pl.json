@@ -22,6 +22,11 @@
     "updateNote": "Listę będę aktualizował na bieżąco.",
     "lastUpdate": "Ostatni update"
   },
+  "tweets": {
+    "title": "Ostatnie tweety",
+    "subtitle": "O czym teraz myślę",
+    "followMe": "Obserwuj mnie na X"
+  },
   "blog": {
     "pageTitle": "Blog — nowosielski.ai",
     "pageDescription": "Artykuły o AI, bootstrapie, dziennik nauki i więcej.",
