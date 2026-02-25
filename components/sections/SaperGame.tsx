@@ -71,7 +71,6 @@ type Cell = {
   mark: CellMark;
 };
 
-type RevealStatus = "ok" | "lost" | "won";
 
 function createEmptyBoard(rows: number, cols: number): Cell[][] {
   return Array.from({ length: rows }, () =>
@@ -146,7 +145,7 @@ function computeReveal(
   isFirstClick: boolean,
   firstClickCell: [number, number] | null,
   mineCount: number
-): { board: Cell[][]; status: RevealStatus } {
+): Cell[][] {
   const next = deepCopyBoard(prev);
   const R = next.length;
   const C = next[0].length;
@@ -169,21 +168,14 @@ function computeReveal(
             if (x.isMine && x.state === "hidden") x.state = "mine";
             if (x.mark === "flag" && !x.isMine) x.state = "wrong-flag";
           }
-        return { board: next, status: "lost" };
+        return next;
       }
       if (cell.neighborMines === 0) floodReveal(next, r, c);
       else cell.state = "revealed";
     }
   }
 
-  let revealedCount = 0;
-  for (let rr = 0; rr < R; rr++)
-    for (let cc = 0; cc < C; cc++)
-      if (next[rr][cc].state === "revealed") revealedCount++;
-  if (revealedCount === R * C - mineCount) {
-    return { board: next, status: "won" };
-  }
-  return { board: next, status: "ok" };
+  return next;
 }
 
 function formatTime(seconds: number): string {
@@ -246,27 +238,39 @@ export function SaperGame() {
     return clearTimer;
   }, [clearTimer]);
 
-  const handleRevealResult = useCallback(
-    (status: RevealStatus) => {
-      if (status === "lost") {
-        setPhase("lost");
-        setFace("lost");
-        clearTimer();
-      } else if (status === "won") {
-        setPhase("won");
-        setFace("won");
-        clearTimer();
-        const key = getModeKey(mode);
-        const sec = secondsRef.current;
-        const current = getStoredBestTime(key);
-        if (current === null || sec < current) {
-          persistBestTime(key, sec);
-          setBestTimeState(sec);
-        }
+  // Detect win/loss from board state after every board change
+  useEffect(() => {
+    if (phase !== "playing" || board.length === 0) return;
+
+    const hasExplodedMine = board.some((row) =>
+      row.some((cell) => cell.state === "mine")
+    );
+    if (hasExplodedMine) {
+      setPhase("lost");
+      setFace("lost");
+      clearTimer();
+      return;
+    }
+
+    let revealedCount = 0;
+    const totalCells = board.length * board[0].length;
+    for (const row of board)
+      for (const cell of row)
+        if (cell.state === "revealed") revealedCount++;
+
+    if (revealedCount === totalCells - mines) {
+      setPhase("won");
+      setFace("won");
+      clearTimer();
+      const key = getModeKey(mode);
+      const sec = secondsRef.current;
+      const current = getStoredBestTime(key);
+      if (current === null || sec < current) {
+        persistBestTime(key, sec);
+        setBestTimeState(sec);
       }
-    },
-    [mode, clearTimer]
-  );
+    }
+  }, [board, phase, mines, mode, clearTimer]);
 
   const reveal = useCallback(
     (r: number, c: number) => {
@@ -275,22 +279,17 @@ export function SaperGame() {
         startedRef.current = true;
         startTimer();
       }
-      let status: RevealStatus = "ok";
       setBoard((prev) => {
         const cell = prev[r]?.[c];
         if (!cell || cell.state !== "hidden" || cell.mark === "flag") return prev;
-        const result = computeReveal(prev, [[r, c]], isFirst, isFirst ? [r, c] : null, mines);
-        status = result.status;
-        return result.board;
+        return computeReveal(prev, [[r, c]], isFirst, isFirst ? [r, c] : null, mines);
       });
-      if (status !== "ok") handleRevealResult(status);
     },
-    [mines, startTimer, handleRevealResult]
+    [mines, startTimer]
   );
 
   const chord = useCallback(
     (r: number, c: number) => {
-      let status: RevealStatus = "ok";
       setBoard((prev) => {
         const cell = prev[r]?.[c];
         if (!cell || cell.state !== "revealed" || cell.neighborMines === 0) return prev;
@@ -321,13 +320,10 @@ export function SaperGame() {
           }
         }
         if (toReveal.length === 0) return prev;
-        const result = computeReveal(prev, toReveal, false, null, mines);
-        status = result.status;
-        return result.board;
+        return computeReveal(prev, toReveal, false, null, mines);
       });
-      if (status !== "ok") handleRevealResult(status);
     },
-    [mines, handleRevealResult]
+    [mines]
   );
 
   const cycleMark = useCallback(
