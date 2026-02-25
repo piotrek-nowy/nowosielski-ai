@@ -2,14 +2,34 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import type { BacklogInsert, BacklogUpdate } from "@/types/backlog";
+import type {
+  BacklogInsert,
+  BacklogUpdate,
+  BacklogDifficulty,
+} from "@/types/backlog";
+
+const VALID_DIFFICULTIES: BacklogDifficulty[] = [
+  "easy",
+  "medium",
+  "hard",
+  "killer",
+];
+
+function sanitizeDifficulty(
+  value: string | null | undefined
+): BacklogDifficulty | null {
+  if (value && VALID_DIFFICULTIES.includes(value as BacklogDifficulty)) {
+    return value as BacklogDifficulty;
+  }
+  return null;
+}
 
 export async function createBacklogItem(data: BacklogInsert) {
   const supabase = await createClient();
 
   const { error } = await supabase.from("backlog").insert({
     name: data.name,
-    difficulty: data.difficulty || null,
+    difficulty: sanitizeDifficulty(data.difficulty ?? null),
     category: data.category || null,
     estimated_time: data.estimated_time ?? null,
     estimated_date: data.estimated_date || null,
@@ -28,9 +48,14 @@ export async function createBacklogItem(data: BacklogInsert) {
 export async function updateBacklogItem(id: number, data: BacklogUpdate) {
   const supabase = await createClient();
 
+  const payload = { ...data };
+  if ("difficulty" in payload && payload.difficulty !== undefined) {
+    payload.difficulty = sanitizeDifficulty(payload.difficulty);
+  }
+
   const { error } = await supabase
     .from("backlog")
-    .update(data)
+    .update(payload)
     .eq("id", id);
 
   if (error) return { error: error.message };
