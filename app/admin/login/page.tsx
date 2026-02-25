@@ -6,12 +6,37 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+const RESET_CALLBACK_URL =
+  process.env.NEXT_PUBLIC_SITE_URL
+    ? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "") + "/auth/callback"
+    : "https://www.nowosielski.ai/auth/callback";
+
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmailSent, setResetEmailSent] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+
+  async function handleForgotSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    const supabase = createClient();
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+      resetEmail,
+      { redirectTo: RESET_CALLBACK_URL }
+    );
+    setLoading(false);
+    if (resetError) {
+      setError(resetError.message);
+      return;
+    }
+    setResetEmailSent(true);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -50,6 +75,74 @@ export default function AdminLoginPage() {
     router.replace("/admin");
     router.refresh();
     setLoading(false);
+  }
+
+  if (showForgotPassword) {
+    return (
+      <div className="flex min-h-screen items-center justify-center px-4">
+        <div className="w-full max-w-sm space-y-8">
+          <div className="text-center">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Reset hasła
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {resetEmailSent
+                ? "Sprawdź skrzynkę mailową."
+                : "Podaj email powiązany z kontem."}
+            </p>
+          </div>
+
+          {resetEmailSent ? (
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                setShowForgotPassword(false);
+                setResetEmailSent(false);
+              }}
+            >
+              Wróć do logowania
+            </Button>
+          ) : (
+            <form onSubmit={handleForgotSubmit} className="space-y-4">
+              {error && (
+                <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                  {error}
+                </p>
+              )}
+              <div className="space-y-2">
+                <label htmlFor="reset-email" className="text-sm font-medium">
+                  Email
+                </label>
+                <Input
+                  id="reset-email"
+                  type="email"
+                  autoComplete="email"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  required
+                  className="w-full"
+                />
+              </div>
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Wysyłanie…" : "Wyślij link do resetu"}
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full"
+                onClick={() => {
+                  setShowForgotPassword(false);
+                  setError("");
+                }}
+              >
+                Wróć do logowania
+              </Button>
+            </form>
+          )}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -104,6 +197,16 @@ export default function AdminLoginPage() {
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Logowanie…" : "Zaloguj się"}
           </Button>
+
+          <p className="text-center">
+            <button
+              type="button"
+              className="text-sm text-muted-foreground underline hover:text-foreground"
+              onClick={() => setShowForgotPassword(true)}
+            >
+              Zapomniałem hasła
+            </button>
+          </p>
         </form>
       </div>
     </div>
