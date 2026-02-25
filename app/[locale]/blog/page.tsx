@@ -21,7 +21,7 @@ export default async function BlogPage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations("blog");
-  const posts = getAllPosts();
+  const posts = await getAllPosts(locale as "pl" | "en");
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24">

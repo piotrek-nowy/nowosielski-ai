@@ -1,12 +1,13 @@
 import { Link } from "@/i18n/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { getLatestPosts } from "@/lib/blog";
 import { ArrowRight } from "lucide-react";
 import { BlogCard } from "@/components/sections/BlogCard";
 
 export async function LatestPosts() {
   const t = await getTranslations("blog");
-  const posts = getLatestPosts(3);
+  const locale = await getLocale();
+  const posts = await getLatestPosts(3, locale as "pl" | "en");
 
   if (posts.length === 0) return null;
 
