@@ -156,20 +156,20 @@ export default function ZadaniaPage() {
                 </th>
                 <th className="px-3 py-3 font-medium">{t("colCategory")}</th>
                 <th
-                  className="px-3 py-3 font-medium cursor-pointer select-none hover:text-foreground"
+                  className="px-3 py-3 text-xs font-medium cursor-pointer select-none hover:text-foreground whitespace-nowrap"
                   onClick={() => toggleSort("estimated_time")}
                 >
                   {t("colEstTime")}{sortIndicator("estimated_time")}
                 </th>
                 <th
-                  className="px-3 py-3 font-medium cursor-pointer select-none hover:text-foreground"
+                  className="px-3 py-3 text-xs font-medium cursor-pointer select-none hover:text-foreground whitespace-nowrap"
                   onClick={() => toggleSort("estimated_date")}
                 >
                   {t("colEstDate")}{sortIndicator("estimated_date")}
                 </th>
-                <th className="px-3 py-3 font-medium">{t("colActTime")}</th>
+                <th className="px-3 py-3 text-xs font-medium whitespace-nowrap">{t("colActTime")}</th>
                 <th
-                  className="px-3 py-3 font-medium cursor-pointer select-none hover:text-foreground"
+                  className="px-3 py-3 text-xs font-medium cursor-pointer select-none hover:text-foreground whitespace-nowrap"
                   onClick={() => toggleSort("actual_date")}
                 >
                   {t("colActDate")}{sortIndicator("actual_date")}
@@ -217,10 +217,10 @@ export default function ZadaniaPage() {
                   <td className="px-3 py-3 text-muted-foreground">
                     {item.category ?? "—"}
                   </td>
-                  <td className="px-3 py-3 tabular-nums">
+                  <td className="px-3 py-3 text-xs tabular-nums">
                     {minutesToDisplay(item.estimated_time)}
                   </td>
-                  <td className="px-3 py-3 text-muted-foreground tabular-nums">
+                  <td className="px-3 py-3 text-xs text-muted-foreground tabular-nums">
                     {item.estimated_date
                       ? new Date(item.estimated_date + "T00:00:00").toLocaleDateString(
                           locale === "pl" ? "pl-PL" : "en-US",
@@ -228,10 +228,10 @@ export default function ZadaniaPage() {
                         )
                       : "—"}
                   </td>
-                  <td className="px-3 py-3 tabular-nums">
+                  <td className="px-3 py-3 text-xs tabular-nums">
                     {minutesToDisplay(item.actual_time)}
                   </td>
-                  <td className="px-3 py-3 text-muted-foreground tabular-nums">
+                  <td className="px-3 py-3 text-xs text-muted-foreground tabular-nums">
                     {item.actual_date
                       ? new Date(item.actual_date + "T00:00:00").toLocaleDateString(
                           locale === "pl" ? "pl-PL" : "en-US",
