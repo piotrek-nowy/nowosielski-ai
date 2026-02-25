@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServiceRoleClient } from "@/lib/supabase/server-service";
 
 export type BlogCategory = "AI" | "Bootstrap" | "Dziennik" | "Random";
 
@@ -46,7 +46,7 @@ function rowToBlogPost(row: {
 }
 
 export async function getAllPosts(locale?: "pl" | "en"): Promise<BlogPost[]> {
-  const supabase = await createClient();
+  const supabase = createServiceRoleClient();
   let query = supabase
     .from("posts")
     .select("slug, title, published_at, category, lang, excerpt, content")
@@ -58,12 +58,15 @@ export async function getAllPosts(locale?: "pl" | "en"): Promise<BlogPost[]> {
   }
 
   const { data, error } = await query;
-  if (error) return [];
+  if (error) {
+    console.error("[blog] getAllPosts error:", error.message, error.details);
+    return [];
+  }
   return (data ?? []).map(rowToBlogPost);
 }
 
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
-  const supabase = await createClient();
+  const supabase = createServiceRoleClient();
   const { data, error } = await supabase
     .from("posts")
     .select("slug, title, published_at, category, lang, excerpt, content")
@@ -71,7 +74,10 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     .eq("published", true)
     .single();
 
-  if (error || !data) return null;
+  if (error || !data) {
+    if (error) console.error("[blog] getPostBySlug error:", error.message);
+    return null;
+  }
   return rowToBlogPost(data);
 }
 
@@ -79,7 +85,7 @@ export async function getPostsByCategory(
   category: string,
   locale?: "pl" | "en"
 ): Promise<BlogPost[]> {
-  const supabase = await createClient();
+  const supabase = createServiceRoleClient();
   let query = supabase
     .from("posts")
     .select("slug, title, published_at, category, lang, excerpt, content")
@@ -92,7 +98,10 @@ export async function getPostsByCategory(
   }
 
   const { data, error } = await query;
-  if (error) return [];
+  if (error) {
+    console.error("[blog] getPostsByCategory error:", error.message);
+    return [];
+  }
   return (data ?? []).map(rowToBlogPost);
 }
 
