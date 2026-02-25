@@ -71,7 +71,7 @@ export async function GET() {
     const tweetsRes = await fetch(
       `https://api.twitter.com/2/users/${userId}/tweets?` +
         new URLSearchParams({
-          max_results: "5",
+          max_results: "3",
           "tweet.fields": "created_at,public_metrics",
           "user.fields": "name,username,profile_image_url",
           expansions: "author_id",
