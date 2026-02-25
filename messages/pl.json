@@ -4,7 +4,8 @@
     "blog": "Blog",
     "backlog": "Backlog",
     "zadania": "Zadania",
-    "snake": "Snake"
+    "snake": "Snake",
+    "saper": "Saper"
   },
   "home": {
     "greeting": "Cześć, jestem Piotr",
@@ -71,5 +72,35 @@
     "score": "Wynik",
     "best": "Rekord",
     "playAgain": "Zagraj ponownie"
+  },
+  "saper": {
+    "pageTitle": "Saper — nowosielski.ai",
+    "pageDescription": "Klasyczna gra Saper (Minesweeper).",
+    "title": "Saper",
+    "selectMode": "Wybierz tryb",
+    "mode": {
+      "beginner": "Początkujący",
+      "intermediate": "Zaawansowany",
+      "expert": "Ekspert"
+    },
+    "mines": "min",
+    "customMode": "Własny",
+    "rows": "Wiersze",
+    "cols": "Kolumny",
+    "startCustom": "Start",
+    "customRules": "Min 8×8, max 30×24. Miny:",
+    "risk": "Ryzyko trafienia",
+    "changeMode": "Zmień tryb",
+    "time": "Czas",
+    "best": "Rekord",
+    "restart": "Restart",
+    "youWon": "Wygrana!",
+    "youLost": "Trafiłeś na minę.",
+    "newRecord": "Nowy rekord!",
+    "playAgain": "Zagraj ponownie",
+    "howToPlay": "Jak grać?",
+    "instructions": "Odkryj wszystkie pola, które nie zawierają min. Kliknij lewym przyciskiem myszy, aby odkryć pole. Liczba na polu oznacza ile min jest w sąsiednich 8 polach.",
+    "flagInstructions": "Aby postawić flagę 🚩 (oznaczenie miny): kliknij prawym przyciskiem myszy, albo na touchpadzie kliknij dwoma palcami. Ponowne kliknięcie zmienia flagę na znak zapytania ❓, a trzecie — usuwa oznaczenie.",
+    "yourTime": "Twój czas"
   }
 }

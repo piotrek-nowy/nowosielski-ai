@@ -4,7 +4,8 @@
     "blog": "Blog",
     "backlog": "Backlog",
     "zadania": "Tasks",
-    "snake": "Snake"
+    "snake": "Snake",
+    "saper": "Minesweeper"
   },
   "home": {
     "greeting": "Hi, I'm Piotr",
@@ -71,5 +72,35 @@
     "score": "Score",
     "best": "Best",
     "playAgain": "Play again"
+  },
+  "saper": {
+    "pageTitle": "Minesweeper — nowosielski.ai",
+    "pageDescription": "Classic Minesweeper game.",
+    "title": "Minesweeper",
+    "selectMode": "Select mode",
+    "mode": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "expert": "Expert"
+    },
+    "mines": "mines",
+    "customMode": "Custom",
+    "rows": "Rows",
+    "cols": "Cols",
+    "startCustom": "Start",
+    "customRules": "Min 8×8, max 30×24. Mines:",
+    "risk": "Hit risk",
+    "changeMode": "Change mode",
+    "time": "Time",
+    "best": "Best",
+    "restart": "Restart",
+    "youWon": "You won!",
+    "youLost": "You hit a mine.",
+    "newRecord": "New record!",
+    "playAgain": "Play again",
+    "howToPlay": "How to play?",
+    "instructions": "Reveal all cells that don't contain mines. Left-click to reveal a cell. The number on a cell tells you how many mines are in the surrounding 8 cells.",
+    "flagInstructions": "To place a flag 🚩 (mark a mine): right-click, or two-finger tap on a trackpad. Clicking again changes the flag to a question mark ❓, and a third click removes the mark.",
+    "yourTime": "Your time"
   }
 }
