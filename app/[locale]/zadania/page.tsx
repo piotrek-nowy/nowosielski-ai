@@ -48,6 +48,14 @@ function minutesToDisplay(minutes: number | null): string {
   return `${h}h ${m}min`;
 }
 
+function minutesToSignedDisplay(minutes: number): string {
+  const sign = minutes < 0 ? "-" : "";
+  const abs = Math.abs(minutes);
+  const h = Math.floor(abs / 60);
+  const m = abs % 60;
+  return `${sign}${h}h ${m}min`;
+}
+
 export default function ZadaniaPage() {
   const t = useTranslations("zadania");
   const tNav = useTranslations("nav");
@@ -135,7 +143,42 @@ export default function ZadaniaPage() {
       ) : sortedItems.length === 0 ? (
         <p className="mt-10 text-muted-foreground">{t("empty")}</p>
       ) : (
-        <div className="mt-10 overflow-x-auto rounded-lg border border-border">
+        <>
+          {(() => {
+            const completedWithActual = items.filter(
+              (i) => i.done && i.actual_time != null
+            );
+            const sumEstimated = completedWithActual.reduce(
+              (s, i) => s + (i.estimated_time ?? 0),
+              0
+            );
+            const sumActual = completedWithActual.reduce(
+              (s, i) => s + (i.actual_time ?? 0),
+              0
+            );
+            const balance = sumActual - sumEstimated;
+            const hasBalance = completedWithActual.length > 0;
+            const balanceColor =
+              !hasBalance || balance === 0
+                ? "text-muted-foreground"
+                : balance < 0
+                  ? "text-green-600 dark:text-green-400"
+                  : "text-red-600 dark:text-red-400";
+            return (
+              <p className="mt-10 text-sm text-muted-foreground">
+                {t("summaryPlanned")}: {minutesToDisplay(sumEstimated || null)}{" "}
+                | {t("summaryActual")}: {minutesToDisplay(sumActual || null)}{" "}
+                |{" "}
+                <span className={balanceColor}>
+                  {t("summaryBalance")}:{" "}
+                  {hasBalance
+                    ? minutesToSignedDisplay(balance)
+                    : "—"}
+                </span>
+              </p>
+            );
+          })()}
+          <div className="mt-4 overflow-x-auto rounded-lg border border-border">
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/50">
@@ -243,7 +286,8 @@ export default function ZadaniaPage() {
               ))}
             </tbody>
           </table>
-        </div>
+          </div>
+        </>
       )}
 
       <p className="mt-6 text-sm text-muted-foreground">

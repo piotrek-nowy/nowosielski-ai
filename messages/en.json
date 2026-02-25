@@ -40,7 +40,10 @@
     "colEstDate": "Est. date",
     "colActTime": "Act. time",
     "colActDate": "Act. date",
-    "totalTasks": "Total tasks"
+    "totalTasks": "Total tasks",
+    "summaryPlanned": "Planned",
+    "summaryActual": "Actual",
+    "summaryBalance": "Balance"
   },
   "tweets": {
     "title": "Latest tweets",

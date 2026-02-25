@@ -40,7 +40,10 @@
     "colEstDate": "Est. data",
     "colActTime": "Fakt. czas",
     "colActDate": "Fakt. data",
-    "totalTasks": "Łącznie zadań"
+    "totalTasks": "Łącznie zadań",
+    "summaryPlanned": "Zaplanowano",
+    "summaryActual": "Wykonano",
+    "summaryBalance": "Bilans"
   },
   "tweets": {
     "title": "Ostatnie tweety",
