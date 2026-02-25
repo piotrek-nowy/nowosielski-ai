@@ -3,7 +3,8 @@
     "home": "Home",
     "blog": "Blog",
     "backlog": "Backlog",
-    "zadania": "Tasks"
+    "zadania": "Tasks",
+    "snake": "Snake"
   },
   "home": {
     "greeting": "Hi, I'm Piotr",
@@ -60,5 +61,15 @@
     "latestSubtitle": "From the blog",
     "viewAll": "View all",
     "backToBlog": "Back to blog"
+  },
+  "snake": {
+    "pageTitle": "Snake — nowosielski.ai",
+    "pageDescription": "Classic Snake game. Use arrow keys to play.",
+    "pressEnter": "Press Enter to start",
+    "start": "Start game",
+    "gameOver": "Game Over",
+    "score": "Score",
+    "best": "Best",
+    "playAgain": "Play again"
   }
 }

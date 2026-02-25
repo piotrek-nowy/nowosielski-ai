@@ -3,7 +3,8 @@
     "home": "Start",
     "blog": "Blog",
     "backlog": "Backlog",
-    "zadania": "Zadania"
+    "zadania": "Zadania",
+    "snake": "Snake"
   },
   "home": {
     "greeting": "Cześć, jestem Piotr",
@@ -60,5 +61,15 @@
     "latestSubtitle": "Z bloga",
     "viewAll": "Zobacz wszystkie",
     "backToBlog": "Wróć do bloga"
+  },
+  "snake": {
+    "pageTitle": "Snake — nowosielski.ai",
+    "pageDescription": "Klasyczna gra Snake. Sterowanie strzałkami.",
+    "pressEnter": "Naciśnij Enter, aby zacząć",
+    "start": "Zacznij grę",
+    "gameOver": "Koniec gry",
+    "score": "Wynik",
+    "best": "Rekord",
+    "playAgain": "Zagraj ponownie"
   }
 }
