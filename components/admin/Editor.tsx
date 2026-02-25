@@ -78,7 +78,7 @@ export function Editor({ content, onChange, placeholder, className }: EditorProp
   useEffect(() => {
     if (!editor) return;
     if (content !== editor.getHTML()) {
-      editor.commands.setContent(content, false);
+      editor.commands.setContent(content);
     }
   }, [content, editor]);
 
