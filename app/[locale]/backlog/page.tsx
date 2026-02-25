@@ -15,22 +15,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const mainItems = [
-  { done: true, text: { pl: "stworzyć swoją stronę domową", en: "build my own homepage" } },
   {
-    done: false,
-    text: {
-      pl: "podpiąć feed z mojego X po założeniu konta deweloperskiego na tym serwisie",
-      en: "connect my X feed after setting up a developer account",
-    },
-    deadline: "to do: W4 luty",
+    done: true,
+    text: { pl: "stworzyć swoją stronę domową", en: "build my own homepage" },
+    time: "5,5h",
   },
   {
-    done: false,
+    done: true,
+    text: {
+      pl: "podpiąć feed z mojego X po założeniu tam konta deweloperskiego",
+      en: "connect my X feed after setting up a developer account there",
+    },
+    time: "2h",
+  },
+  {
+    done: true,
     text: {
       pl: "postawić bloga na supabase z opcją logowania i edytorem tekstu",
       en: "set up a blog on Supabase with login and a text editor",
     },
-    deadline: "to do: W4 luty",
+    time: "2h",
   },
   {
     done: false,
@@ -165,6 +169,7 @@ export default async function BacklogPage({ params }: Props) {
             {item.done ? (
               <span>
                 <strong>{item.text[lang]}</strong> — <strong>done</strong> ✅
+                {"time" in item && item.time && ` ${item.time}`}
               </span>
             ) : (
               <span>
