@@ -2,7 +2,8 @@
   "nav": {
     "home": "Start",
     "blog": "Blog",
-    "backlog": "Backlog"
+    "backlog": "Backlog",
+    "zadania": "Zadania"
   },
   "home": {
     "greeting": "Cześć, jestem Piotr",
@@ -21,6 +22,24 @@
     "advancedHeading": "Znacznie bardziej rozbudowane struktury:",
     "updateNote": "Listę będę aktualizował na bieżąco.",
     "lastUpdate": "Ostatni update"
+  },
+  "zadania": {
+    "pageTitle": "Zadania — nowosielski.ai",
+    "pageDescription": "Lista zadań nad którymi pracuję.",
+    "heading": "Zadania",
+    "subheading": "Lista zadań nad którymi pracuję i planuję pracować.",
+    "loading": "Ładowanie...",
+    "empty": "Brak zadań.",
+    "colNr": "Nr",
+    "colDate": "Data dodania",
+    "colName": "Nazwa zadania",
+    "colDifficulty": "Trudność",
+    "colCategory": "Kategoria",
+    "colEstTime": "Est. czas",
+    "colEstDate": "Est. data",
+    "colActTime": "Fakt. czas",
+    "colActDate": "Fakt. data",
+    "totalTasks": "Łącznie zadań"
   },
   "tweets": {
     "title": "Ostatnie tweety",

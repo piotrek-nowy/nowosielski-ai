@@ -2,7 +2,8 @@
   "nav": {
     "home": "Home",
     "blog": "Blog",
-    "backlog": "Backlog"
+    "backlog": "Backlog",
+    "zadania": "Tasks"
   },
   "home": {
     "greeting": "Hi, I'm Piotr",
@@ -21,6 +22,24 @@
     "advancedHeading": "Much more complex structures:",
     "updateNote": "I'll keep updating this list.",
     "lastUpdate": "Last update"
+  },
+  "zadania": {
+    "pageTitle": "Tasks — nowosielski.ai",
+    "pageDescription": "List of tasks I'm working on.",
+    "heading": "Tasks",
+    "subheading": "Tasks I'm working on and planning to work on.",
+    "loading": "Loading...",
+    "empty": "No tasks yet.",
+    "colNr": "Nr",
+    "colDate": "Date added",
+    "colName": "Task name",
+    "colDifficulty": "Difficulty",
+    "colCategory": "Category",
+    "colEstTime": "Est. time",
+    "colEstDate": "Est. date",
+    "colActTime": "Act. time",
+    "colActDate": "Act. date",
+    "totalTasks": "Total tasks"
   },
   "tweets": {
     "title": "Latest tweets",
