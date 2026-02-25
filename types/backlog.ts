@@ -1,4 +1,4 @@
-export type BacklogDifficulty = "easy" | "medium" | "hard";
+export type BacklogDifficulty = "easy" | "medium" | "hard" | "killer";
 
 export type BacklogCategory = "random" | "fun" | "AI" | "praca" | "edukacja";
 
@@ -12,6 +12,7 @@ export type BacklogItem = {
   estimated_date: string | null;
   actual_time: number | null;
   actual_date: string | null;
+  done: boolean;
 };
 
 export type BacklogInsert = Omit<BacklogItem, "id" | "created_at">;

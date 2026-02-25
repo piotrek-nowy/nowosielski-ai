@@ -15,6 +15,7 @@ export async function createBacklogItem(data: BacklogInsert) {
     estimated_date: data.estimated_date || null,
     actual_time: data.actual_time ?? null,
     actual_date: data.actual_date || null,
+    done: data.done ?? false,
   });
 
   if (error) return { error: error.message };

@@ -9,27 +9,36 @@ const DIFFICULTY_LABELS_PL: Record<BacklogDifficulty, string> = {
   easy: "Łatwy",
   medium: "Średni",
   hard: "Trudny",
+  killer: "Killer",
 };
 
 const DIFFICULTY_LABELS_EN: Record<BacklogDifficulty, string> = {
   easy: "Easy",
   medium: "Medium",
   hard: "Hard",
+  killer: "Killer",
 };
 
 const DIFFICULTY_COLORS: Record<BacklogDifficulty, string> = {
   easy: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
   medium: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
   hard: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300",
+  killer: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400",
 };
 
 const DIFFICULTY_ORDER: Record<BacklogDifficulty, number> = {
   easy: 1,
   medium: 2,
   hard: 3,
+  killer: 4,
 };
 
-type SortField = "difficulty" | "estimated_time";
+type SortField =
+  | "difficulty"
+  | "estimated_time"
+  | "created_at"
+  | "estimated_date"
+  | "actual_date";
 type SortDir = "asc" | "desc";
 
 function minutesToDisplay(minutes: number | null): string {
@@ -74,6 +83,25 @@ export default function ZadaniaPage() {
         cmp = aVal - bVal;
       } else if (sortField === "estimated_time") {
         cmp = (a.estimated_time ?? 99999) - (b.estimated_time ?? 99999);
+      } else if (sortField === "created_at") {
+        cmp =
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      } else if (sortField === "estimated_date") {
+        const aVal = a.estimated_date
+          ? new Date(a.estimated_date + "T00:00:00").getTime()
+          : Infinity;
+        const bVal = b.estimated_date
+          ? new Date(b.estimated_date + "T00:00:00").getTime()
+          : Infinity;
+        cmp = aVal - bVal;
+      } else if (sortField === "actual_date") {
+        const aVal = a.actual_date
+          ? new Date(a.actual_date + "T00:00:00").getTime()
+          : Infinity;
+        const bVal = b.actual_date
+          ? new Date(b.actual_date + "T00:00:00").getTime()
+          : Infinity;
+        cmp = aVal - bVal;
       }
       return sortDir === "asc" ? cmp : -cmp;
     });
@@ -112,7 +140,13 @@ export default function ZadaniaPage() {
             <thead>
               <tr className="border-b border-border bg-muted/50">
                 <th className="px-3 py-3 font-medium">{t("colNr")}</th>
-                <th className="px-3 py-3 font-medium">{t("colDate")}</th>
+                <th className="px-3 py-3 font-medium w-12">{t("colDone")}</th>
+                <th
+                  className="px-3 py-3 font-medium cursor-pointer select-none hover:text-foreground"
+                  onClick={() => toggleSort("created_at")}
+                >
+                  {t("colDate")}{sortIndicator("created_at")}
+                </th>
                 <th className="px-3 py-3 font-medium">{t("colName")}</th>
                 <th
                   className="px-3 py-3 font-medium cursor-pointer select-none hover:text-foreground"
@@ -127,19 +161,38 @@ export default function ZadaniaPage() {
                 >
                   {t("colEstTime")}{sortIndicator("estimated_time")}
                 </th>
-                <th className="px-3 py-3 font-medium">{t("colEstDate")}</th>
+                <th
+                  className="px-3 py-3 font-medium cursor-pointer select-none hover:text-foreground"
+                  onClick={() => toggleSort("estimated_date")}
+                >
+                  {t("colEstDate")}{sortIndicator("estimated_date")}
+                </th>
                 <th className="px-3 py-3 font-medium">{t("colActTime")}</th>
-                <th className="px-3 py-3 font-medium">{t("colActDate")}</th>
+                <th
+                  className="px-3 py-3 font-medium cursor-pointer select-none hover:text-foreground"
+                  onClick={() => toggleSort("actual_date")}
+                >
+                  {t("colActDate")}{sortIndicator("actual_date")}
+                </th>
               </tr>
             </thead>
             <tbody>
               {sortedItems.map((item) => (
                 <tr
                   key={item.id}
-                  className="border-b border-border/60 hover:bg-muted/30"
+                  className={`border-b border-border/60 hover:bg-muted/30 ${item.done ? "opacity-50" : ""}`}
                 >
                   <td className="px-3 py-3 text-muted-foreground tabular-nums">
                     {item.id}
+                  </td>
+                  <td className="px-3 py-3 text-muted-foreground">
+                    {item.done ? (
+                      <span className="text-gray-500" title={t("colDone")}>
+                        ✔️
+                      </span>
+                    ) : (
+                      "—"
+                    )}
                   </td>
                   <td className="px-3 py-3 text-muted-foreground text-xs tabular-nums">
                     {new Date(item.created_at).toLocaleDateString(

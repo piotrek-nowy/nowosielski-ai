@@ -14,28 +14,36 @@ import type {
 } from "@/types/backlog";
 import Link from "next/link";
 
-const DIFFICULTIES: BacklogDifficulty[] = ["easy", "medium", "hard"];
+const DIFFICULTIES: BacklogDifficulty[] = ["easy", "medium", "hard", "killer"];
 const CATEGORIES: BacklogCategory[] = ["random", "fun", "AI", "praca", "edukacja"];
 
 const DIFFICULTY_LABELS: Record<BacklogDifficulty, string> = {
   easy: "Łatwy",
   medium: "Średni",
   hard: "Trudny",
+  killer: "Killer",
 };
 
 const DIFFICULTY_COLORS: Record<BacklogDifficulty, string> = {
   easy: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
   medium: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
   hard: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300",
+  killer: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400",
 };
 
-type SortField = "difficulty" | "estimated_time";
+type SortField =
+  | "difficulty"
+  | "estimated_time"
+  | "created_at"
+  | "estimated_date"
+  | "actual_date";
 type SortDir = "asc" | "desc";
 
 const DIFFICULTY_ORDER: Record<BacklogDifficulty, number> = {
   easy: 1,
   medium: 2,
   hard: 3,
+  killer: 4,
 };
 
 function minutesToDisplay(minutes: number | null): string {
@@ -100,6 +108,25 @@ export default function AdminBacklogPage() {
         cmp = aVal - bVal;
       } else if (sortField === "estimated_time") {
         cmp = (a.estimated_time ?? 99999) - (b.estimated_time ?? 99999);
+      } else if (sortField === "created_at") {
+        cmp =
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      } else if (sortField === "estimated_date") {
+        const aVal = a.estimated_date
+          ? new Date(a.estimated_date + "T00:00:00").getTime()
+          : Infinity;
+        const bVal = b.estimated_date
+          ? new Date(b.estimated_date + "T00:00:00").getTime()
+          : Infinity;
+        cmp = aVal - bVal;
+      } else if (sortField === "actual_date") {
+        const aVal = a.actual_date
+          ? new Date(a.actual_date + "T00:00:00").getTime()
+          : Infinity;
+        const bVal = b.actual_date
+          ? new Date(b.actual_date + "T00:00:00").getTime()
+          : Infinity;
+        cmp = aVal - bVal;
       }
       return sortDir === "asc" ? cmp : -cmp;
     });
@@ -128,6 +155,7 @@ export default function AdminBacklogPage() {
       estimated_date: null,
       actual_time: null,
       actual_date: null,
+      done: false,
     });
     if (!result.error) fetchItems();
   }
@@ -143,7 +171,7 @@ export default function AdminBacklogPage() {
   function handleFieldChange(
     id: number,
     field: keyof BacklogItem,
-    value: string | number | null
+    value: string | number | boolean | null
   ) {
     setItems((prev) =>
       prev.map((item) =>
@@ -162,7 +190,7 @@ export default function AdminBacklogPage() {
   async function saveItem(
     id: number,
     field: keyof BacklogItem,
-    value: string | number | null
+    value: string | number | boolean | null
   ) {
     setSaving((prev) => ({ ...prev, [id]: true }));
     await updateBacklogItem(id, { [field]: value });
@@ -208,7 +236,13 @@ export default function AdminBacklogPage() {
             <thead>
               <tr className="border-b border-border bg-muted/50">
                 <th className="px-3 py-3 font-medium w-12">Nr</th>
-                <th className="px-3 py-3 font-medium w-28">Data dodania</th>
+                <th className="px-3 py-3 font-medium w-12">Done</th>
+                <th
+                  className="px-3 py-3 font-medium w-28 cursor-pointer select-none hover:text-foreground"
+                  onClick={() => toggleSort("created_at")}
+                >
+                  Data dodania{sortIndicator("created_at")}
+                </th>
                 <th className="px-3 py-3 font-medium min-w-[200px]">Nazwa zadania</th>
                 <th
                   className="px-3 py-3 font-medium w-32 cursor-pointer select-none hover:text-foreground"
@@ -223,9 +257,19 @@ export default function AdminBacklogPage() {
                 >
                   Est. czas{sortIndicator("estimated_time")}
                 </th>
-                <th className="px-3 py-3 font-medium w-32">Est. data</th>
+                <th
+                  className="px-3 py-3 font-medium w-32 cursor-pointer select-none hover:text-foreground"
+                  onClick={() => toggleSort("estimated_date")}
+                >
+                  Est. data{sortIndicator("estimated_date")}
+                </th>
                 <th className="px-3 py-3 font-medium w-28">Fakt. czas</th>
-                <th className="px-3 py-3 font-medium w-32">Fakt. data</th>
+                <th
+                  className="px-3 py-3 font-medium w-32 cursor-pointer select-none hover:text-foreground"
+                  onClick={() => toggleSort("actual_date")}
+                >
+                  Fakt. data{sortIndicator("actual_date")}
+                </th>
                 <th className="px-3 py-3 font-medium w-16"></th>
               </tr>
             </thead>
@@ -233,7 +277,7 @@ export default function AdminBacklogPage() {
               {sortedItems.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={10}
+                    colSpan={11}
                     className="px-4 py-8 text-center text-muted-foreground"
                   >
                     Brak zadań. Dodaj pierwsze.
@@ -250,6 +294,22 @@ export default function AdminBacklogPage() {
                       {saving[item.id] && (
                         <span className="ml-1 text-xs text-blue-500">●</span>
                       )}
+                    </td>
+                    <td className="px-3 py-2">
+                      <input
+                        type="checkbox"
+                        checked={item.done ?? false}
+                        onChange={async () => {
+                          const next = !(item.done ?? false);
+                          setItems((prev) =>
+                            prev.map((i) =>
+                              i.id === item.id ? { ...i, done: next } : i
+                            )
+                          );
+                          await saveItem(item.id, "done", next);
+                        }}
+                        className="h-4 w-4 rounded border-border"
+                      />
                     </td>
                     <td className="px-3 py-2 text-muted-foreground text-xs tabular-nums">
                       {new Date(item.created_at).toLocaleDateString("pl-PL", {

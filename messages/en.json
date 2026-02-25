@@ -31,6 +31,7 @@
     "loading": "Loading...",
     "empty": "No tasks yet.",
     "colNr": "Nr",
+    "colDone": "Done",
     "colDate": "Date added",
     "colName": "Task name",
     "colDifficulty": "Difficulty",
