@@ -139,22 +139,22 @@ export default function ZadaniaPage() {
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/50">
-                <th className="px-3 py-3 font-medium">{t("colNr")}</th>
-                <th className="px-3 py-3 font-medium w-12">{t("colDone")}</th>
+                <th className="px-3 py-3 text-xs font-medium whitespace-nowrap">{t("colNr")}</th>
+                <th className="px-3 py-3 text-xs font-medium w-12 whitespace-nowrap">{t("colDone")}</th>
                 <th
-                  className="px-3 py-3 font-medium cursor-pointer select-none hover:text-foreground"
+                  className="px-3 py-3 text-xs font-medium cursor-pointer select-none hover:text-foreground whitespace-nowrap"
                   onClick={() => toggleSort("created_at")}
                 >
                   {t("colDate")}{sortIndicator("created_at")}
                 </th>
-                <th className="px-3 py-3 font-medium">{t("colName")}</th>
+                <th className="px-3 py-3 text-xs font-medium whitespace-nowrap">{t("colName")}</th>
                 <th
-                  className="px-3 py-3 font-medium cursor-pointer select-none hover:text-foreground"
+                  className="px-3 py-3 text-xs font-medium cursor-pointer select-none hover:text-foreground whitespace-nowrap"
                   onClick={() => toggleSort("difficulty")}
                 >
                   {t("colDifficulty")}{sortIndicator("difficulty")}
                 </th>
-                <th className="px-3 py-3 font-medium">{t("colCategory")}</th>
+                <th className="px-3 py-3 text-xs font-medium whitespace-nowrap">{t("colCategory")}</th>
                 <th
                   className="px-3 py-3 text-xs font-medium cursor-pointer select-none hover:text-foreground whitespace-nowrap"
                   onClick={() => toggleSort("estimated_time")}
