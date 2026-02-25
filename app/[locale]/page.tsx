@@ -23,14 +23,14 @@ export default async function HomePage({ params }: Props) {
           <Sidebar />
         </aside>
 
-        {/* Latest tweets — left column on desktop */}
+        {/* Latest posts — left column on desktop */}
         <div className="order-3 pt-6 lg:pt-0">
-          <LatestTweets />
+          <LatestPosts />
         </div>
 
-        {/* Latest posts — left column on desktop, last on mobile */}
+        {/* Latest tweets — left column on desktop, below posts */}
         <div className="order-4 pt-6 lg:pt-0">
-          <LatestPosts />
+          <LatestTweets />
         </div>
       </div>
     </section>
