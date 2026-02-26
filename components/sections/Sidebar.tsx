@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { SocialIcons } from "@/components/SocialIcons";
 import { Globe } from "lucide-react";
+import { WinampPlayer } from "@/components/sections/WinampPlayer";
 
 const websites = [
   { label: "justjoin.it", href: "https://justjoin.it" },
@@ -34,6 +35,7 @@ export function Sidebar() {
           </a>
         ))}
       </div>
+      <WinampPlayer />
     </div>
   );
 }
