@@ -36,6 +36,7 @@ export async function createBacklogItem(data: BacklogInsert) {
     actual_time: data.actual_time ?? null,
     actual_date: data.actual_date || null,
     done: data.done ?? false,
+    in_progress: data.in_progress ?? false,
   });
 
   if (error) return { error: error.message };
@@ -51,6 +52,13 @@ export async function updateBacklogItem(id: number, data: BacklogUpdate) {
   const payload = { ...data };
   if ("difficulty" in payload && payload.difficulty !== undefined) {
     payload.difficulty = sanitizeDifficulty(payload.difficulty);
+  }
+
+  if (payload.in_progress === true) {
+    await supabase
+      .from("backlog")
+      .update({ in_progress: false })
+      .neq("id", id);
   }
 
   const { error } = await supabase

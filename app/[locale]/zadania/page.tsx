@@ -164,18 +164,51 @@ export default function ZadaniaPage() {
                 : balance < 0
                   ? "text-green-600 dark:text-green-400"
                   : "text-red-600 dark:text-red-400";
+            const activeItem = items.find((i) => i.in_progress);
             return (
-              <p className="mt-10 text-sm text-muted-foreground">
-                {t("summaryPlanned")}: {minutesToDisplay(sumEstimated || null)}{" "}
-                | {t("summaryActual")}: {minutesToDisplay(sumActual || null)}{" "}
-                |{" "}
-                <span className={balanceColor}>
-                  {t("summaryBalance")}:{" "}
-                  {hasBalance
-                    ? minutesToSignedDisplay(balance)
-                    : "—"}
-                </span>
-              </p>
+              <div className="mt-10 space-y-2">
+                <p className="text-sm text-muted-foreground">
+                  {t("summaryPlanned")}: {minutesToDisplay(sumEstimated || null)}{" "}
+                  | {t("summaryActual")}: {minutesToDisplay(sumActual || null)}{" "}
+                  |{" "}
+                  <span className={balanceColor}>
+                    {t("summaryBalance")}:{" "}
+                    {hasBalance
+                      ? minutesToSignedDisplay(balance)
+                      : "—"}
+                  </span>
+                </p>
+                {activeItem && (
+                  <p className="flex items-center gap-2 text-sm">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-amber-500 animate-[spin_3s_linear_infinite]"
+                    >
+                      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    <span className="text-amber-600 dark:text-amber-400 font-medium">
+                      {t("currentlyWorkingOn")}:
+                    </span>{" "}
+                    <span className="font-medium text-foreground">
+                      {activeItem.name}
+                    </span>
+                    {activeItem.actual_time != null && (
+                      <span className="text-muted-foreground">
+                        — {minutesToDisplay(activeItem.actual_time)}
+                      </span>
+                    )}
+                  </p>
+                )}
+              </div>
             );
           })()}
           <div className="mt-4 overflow-x-auto rounded-lg border border-border">
@@ -223,16 +256,45 @@ export default function ZadaniaPage() {
               {sortedItems.map((item) => (
                 <tr
                   key={item.id}
-                  className={`border-b border-border/60 hover:bg-muted/30 ${item.done ? "opacity-50" : ""}`}
+                  className={`border-b border-border/60 hover:bg-muted/30 ${item.done && !item.in_progress ? "opacity-50" : ""} ${item.in_progress ? "bg-amber-50/50 dark:bg-amber-900/10" : ""}`}
                 >
                   <td className="px-3 py-3 text-muted-foreground tabular-nums">
                     {item.id}
                   </td>
                   <td className="px-3 py-3 text-muted-foreground">
-                    {item.done ? (
-                      <span className="text-gray-500" title={t("colDone")}>
-                        ✔️
-                      </span>
+                    {item.in_progress ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-amber-500 animate-[spin_3s_linear_infinite]"
+                        title={t("statusInProgress")}
+                      >
+                        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    ) : item.done ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-green-500"
+                        title={t("colDone")}
+                      >
+                        <path d="M20 6 9 17l-5-5" />
+                      </svg>
                     ) : (
                       "—"
                     )}

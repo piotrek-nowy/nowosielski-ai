@@ -46,7 +46,9 @@
     "totalTasks": "Total tasks",
     "summaryPlanned": "Planned",
     "summaryActual": "Actual",
-    "summaryBalance": "Balance"
+    "summaryBalance": "Balance",
+    "currentlyWorkingOn": "Currently working on",
+    "statusInProgress": "In progress"
   },
   "tweets": {
     "title": "Latest tweets",

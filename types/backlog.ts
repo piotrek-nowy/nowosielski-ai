@@ -13,6 +13,7 @@ export type BacklogItem = {
   actual_time: number | null;
   actual_date: string | null;
   done: boolean;
+  in_progress: boolean;
 };
 
 export type BacklogInsert = Omit<BacklogItem, "id" | "created_at">;
