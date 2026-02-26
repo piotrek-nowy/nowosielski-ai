@@ -38,32 +38,21 @@ const StockAndWaste = memo(function StockAndWaste({
   const visibleWaste = drawMode === 3 ? waste.slice(-3) : waste.slice(-1);
   const wasteTop = waste.length > 0 ? waste[waste.length - 1] : null;
 
+  const wasteWidth = drawMode === 3
+    ? 'calc(var(--card-w) + 36px)'
+    : 'var(--card-w)';
+
   return (
     <div className="flex gap-3">
-      {/* Stock */}
-      <div className="relative" onClick={onStockClick}>
-        {stock.length > 0 ? (
-          <div className="relative">
-            <CardBack className={isStockHinted ? 'ring-2 ring-yellow-400 animate-pulse' : ''} />
-            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-[10px] px-1.5 rounded-full">
-              {stock.length}
-            </div>
-          </div>
-        ) : (
-          <EmptyPile
-            label="↻"
-            className="cursor-pointer"
-          />
-        )}
-      </div>
-
-      {/* Waste — fixed width so Draw 3 cascade never overflows */}
+      {/* Waste — LEFT of Stock so cascade extends away from side panel */}
       <div
         className="relative"
-        style={{ width: 'var(--card-w)', height: 'var(--card-h)' }}
+        style={{ width: wasteWidth, height: 'var(--card-h)' }}
       >
         {waste.length === 0 ? (
-          <EmptyPile />
+          <div className="absolute right-0 top-0">
+            <EmptyPile />
+          </div>
         ) : drawMode === 3 ? (
           visibleWaste.map((card, i) => {
             const isTop = i === visibleWaste.length - 1;
@@ -77,11 +66,13 @@ const StockAndWaste = memo(function StockAndWaste({
               isTop &&
               hintMove?.from.pile === 'waste';
 
+            const reverseIdx = visibleWaste.length - 1 - i;
+
             return (
               <div
                 key={card.id}
-                className="absolute top-0"
-                style={{ left: i * 18, zIndex: i }}
+                className="absolute top-0 right-0"
+                style={{ right: reverseIdx * 18, zIndex: i }}
               >
                 <SolitaireCard
                   card={{ ...card, faceUp: true }}
@@ -103,17 +94,36 @@ const StockAndWaste = memo(function StockAndWaste({
             };
             const isHinted = hintMove?.from.pile === 'waste';
             return (
-              <SolitaireCard
-                card={{ ...wasteTop, faceUp: true }}
-                onClick={() => onWasteCardClick(loc)}
-                onDoubleClick={() => onWasteCardDoubleClick(loc)}
-                onPointerDown={e => onWasteCardPointerDown(e, loc)}
-                isSelected={isLocationMatch(selectedCard, loc)}
-                isHinted={isHinted}
-              />
+              <div className="absolute right-0 top-0">
+                <SolitaireCard
+                  card={{ ...wasteTop, faceUp: true }}
+                  onClick={() => onWasteCardClick(loc)}
+                  onDoubleClick={() => onWasteCardDoubleClick(loc)}
+                  onPointerDown={e => onWasteCardPointerDown(e, loc)}
+                  isSelected={isLocationMatch(selectedCard, loc)}
+                  isHinted={isHinted}
+                />
+              </div>
             );
           })()
         ) : null}
+      </div>
+
+      {/* Stock — RIGHT side */}
+      <div className="relative" onClick={onStockClick}>
+        {stock.length > 0 ? (
+          <div className="relative">
+            <CardBack className={isStockHinted ? 'ring-2 ring-yellow-400 animate-pulse' : ''} />
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-[10px] px-1.5 rounded-full">
+              {stock.length}
+            </div>
+          </div>
+        ) : (
+          <EmptyPile
+            label="↻"
+            className="cursor-pointer"
+          />
+        )}
       </div>
     </div>
   );
