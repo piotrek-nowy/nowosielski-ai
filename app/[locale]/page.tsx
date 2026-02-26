@@ -1,5 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 import { BioSection } from "@/components/sections/BioSection";
+import { CurrentlyWorkingOn } from "@/components/sections/CurrentlyWorkingOn";
 import { LatestPosts } from "@/components/sections/LatestPosts";
 import { LatestTweets } from "@/components/sections/LatestTweets";
 import { Sidebar } from "@/components/sections/Sidebar";
@@ -16,6 +17,7 @@ export default async function HomePage({ params }: Props) {
         {/* Bio text — left column on desktop, first on mobile */}
         <div className="order-1">
           <BioSection />
+          <CurrentlyWorkingOn />
         </div>
 
         {/* Sidebar — right column on desktop, between bio and posts on mobile */}
