@@ -232,7 +232,7 @@ export function WinampPlayer() {
         <div ref={ytContainerRef} id="yt-winamp-player" />
       </div>
 
-      <div style={{ display: "flex", gap: 3, marginBottom: 4 }}>
+      <div style={{ display: "flex", gap: 3, marginBottom: 4, justifyContent: "center" }}>
         {Object.entries(SKINS).map(([key, sk]) => (
           <button key={key} onClick={() => setSkinKey(key as SkinKey)} style={{
             fontSize: 8, padding: "2px 6px", fontFamily: "monospace", fontWeight: "bold",
