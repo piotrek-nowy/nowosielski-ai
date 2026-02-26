@@ -2,7 +2,6 @@
   "nav": {
     "home": "Home",
     "blog": "Blog",
-    "backlog": "Backlog",
     "zadania": "Tasks",
     "snake": "Snake",
     "saper": "Minesweeper",
@@ -15,16 +14,6 @@
     "bio_personal": "Outside of work — football, chess, and 20th century history.",
     "disclaimer": "Honestly? I don't know yet what this site will become. Maybe just a personal page, maybe a blog about what I'm learning along the way. We'll see. I'm treating it as my playground and a place to learn vibe coding — so you'll probably find a bunch of random, unrelated things here that make absolutely no sense. That's kind of the point :)",
     "disclaimer_punchline": "Stay tuned!"
-  },
-  "backlog": {
-    "pageTitle": "Backlog — nowosielski.ai",
-    "pageDescription": "What I want to build next on nowosielski.ai.",
-    "heading": "Backlog",
-    "subheading": "What I want to build next:",
-    "industryHeading": "Things from my industry I'd like to try building:",
-    "advancedHeading": "Much more complex structures:",
-    "updateNote": "I'll keep updating this list.",
-    "lastUpdate": "Last update"
   },
   "zadania": {
     "pageTitle": "Tasks — nowosielski.ai",
