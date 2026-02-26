@@ -5,7 +5,8 @@
     "backlog": "Backlog",
     "zadania": "Zadania",
     "snake": "Snake",
-    "saper": "Saper"
+    "saper": "Saper",
+    "szachy": "Szachy"
   },
   "home": {
     "greeting": "Cześć, jestem Piotr",
@@ -102,5 +103,40 @@
     "instructions": "Odkryj wszystkie pola, które nie zawierają min. Kliknij lewym przyciskiem myszy, aby odkryć pole. Liczba na polu oznacza ile min jest w sąsiednich 8 polach.",
     "flagInstructions": "Aby postawić flagę 🚩 (oznaczenie miny): kliknij prawym przyciskiem myszy, albo na touchpadzie kliknij dwoma palcami. Ponowne kliknięcie zmienia flagę na znak zapytania ❓, a trzecie — usuwa oznaczenie.",
     "yourTime": "Twój czas"
+  },
+  "chess": {
+    "pageTitle": "Szachy — nowosielski.ai",
+    "pageDescription": "Gra w szachy z AI i trybem dla dwóch graczy.",
+    "title": "Szachy",
+    "gameMode": "Tryb gry",
+    "pvp": "Gracz vs Gracz",
+    "pvc": "Gracz vs Komputer",
+    "difficulty": "Poziom trudności",
+    "easy": "Łatwy",
+    "medium": "Średni",
+    "hard": "Trudny",
+    "playAs": "Graj jako",
+    "white": "Białe",
+    "black": "Czarne",
+    "timeControl": "Kontrola czasu",
+    "noLimit": "Bez limitu",
+    "startGame": "Rozpocznij grę",
+    "newGame": "Nowa gra",
+    "undo": "Cofnij",
+    "downloadPGN": "Pobierz PGN",
+    "moves": "Ruchy",
+    "check": "Szach!",
+    "checkmate": "Mat",
+    "stalemate": "Pat — remis",
+    "whiteWins": "Wygrywają białe!",
+    "blackWins": "Wygrywają czarne!",
+    "draw": "Remis",
+    "timeout": "Koniec czasu!",
+    "playAgain": "Zagraj ponownie",
+    "boardSkin": "Skórka szachownicy",
+    "pieceSkin": "Skórka figur",
+    "promote": "Wybierz figurę",
+    "records": "Rekordy",
+    "description": "Szachy — królewska gra o ponad 1500-letniej historii — narodziły się w Indiach około VI wieku n.e. i podbiły świat jako najpopularniejsza gra strategiczna w dziejach ludzkości."
   }
 }

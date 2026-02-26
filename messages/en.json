@@ -5,7 +5,8 @@
     "backlog": "Backlog",
     "zadania": "Tasks",
     "snake": "Snake",
-    "saper": "Minesweeper"
+    "saper": "Minesweeper",
+    "szachy": "Chess"
   },
   "home": {
     "greeting": "Hi, I'm Piotr",
@@ -102,5 +103,40 @@
     "instructions": "Reveal all cells that don't contain mines. Left-click to reveal a cell. The number on a cell tells you how many mines are in the surrounding 8 cells.",
     "flagInstructions": "To place a flag 🚩 (mark a mine): right-click, or two-finger tap on a trackpad. Clicking again changes the flag to a question mark ❓, and a third click removes the mark.",
     "yourTime": "Your time"
+  },
+  "chess": {
+    "pageTitle": "Chess — nowosielski.ai",
+    "pageDescription": "Chess game with AI and two-player mode.",
+    "title": "Chess",
+    "gameMode": "Game mode",
+    "pvp": "Player vs Player",
+    "pvc": "Player vs Computer",
+    "difficulty": "Difficulty",
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard",
+    "playAs": "Play as",
+    "white": "White",
+    "black": "Black",
+    "timeControl": "Time control",
+    "noLimit": "Unlimited",
+    "startGame": "Start game",
+    "newGame": "New game",
+    "undo": "Undo",
+    "downloadPGN": "Download PGN",
+    "moves": "Moves",
+    "check": "Check!",
+    "checkmate": "Checkmate",
+    "stalemate": "Stalemate — draw",
+    "whiteWins": "White wins!",
+    "blackWins": "Black wins!",
+    "draw": "Draw",
+    "timeout": "Time's up!",
+    "playAgain": "Play again",
+    "boardSkin": "Board skin",
+    "pieceSkin": "Piece skin",
+    "promote": "Choose piece",
+    "records": "Records",
+    "description": "Chess — a royal game with over 1,500 years of history — was born in India around the 6th century AD and conquered the world as the most popular strategic game in human history."
   }
 }
