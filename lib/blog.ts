@@ -106,9 +106,46 @@ export async function getPostsByCategory(
 }
 
 export async function getLatestPosts(
-  count: number = 3,
+  count: number = 5,
   locale?: "pl" | "en"
 ): Promise<BlogPost[]> {
-  const posts = await getAllPosts(locale);
-  return posts.slice(0, count);
+  const supabase = createServiceRoleClient();
+  let query = supabase
+    .from("posts")
+    .select("slug, title, published_at, category, lang, excerpt, content")
+    .eq("published", true)
+    .order("published_at", { ascending: false })
+    .limit(count);
+
+  if (locale) {
+    query = query.eq("lang", locale);
+  }
+
+  const { data, error } = await query;
+  if (error) {
+    console.error("[blog] getLatestPosts error:", error.message);
+    return [];
+  }
+  return (data ?? []).map(rowToBlogPost);
+}
+
+export async function getPostCount(
+  locale?: "pl" | "en"
+): Promise<number> {
+  const supabase = createServiceRoleClient();
+  let query = supabase
+    .from("posts")
+    .select("id", { count: "exact", head: true })
+    .eq("published", true);
+
+  if (locale) {
+    query = query.eq("lang", locale);
+  }
+
+  const { count, error } = await query;
+  if (error) {
+    console.error("[blog] getPostCount error:", error.message);
+    return 0;
+  }
+  return count ?? 0;
 }

@@ -32,6 +32,8 @@ export async function createPost(formData: {
   revalidatePath("/admin");
   revalidatePath("/pl/blog");
   revalidatePath("/en/blog");
+  revalidatePath("/pl");
+  revalidatePath("/en");
   return { error: null };
 }
 
@@ -81,6 +83,8 @@ export async function updatePost(
   revalidatePath(`/admin/posts/${id}/edit`);
   revalidatePath("/pl/blog");
   revalidatePath("/en/blog");
+  revalidatePath("/pl");
+  revalidatePath("/en");
   return { error: null };
 }
 
@@ -91,6 +95,8 @@ export async function deletePost(id: string) {
   revalidatePath("/admin");
   revalidatePath("/pl/blog");
   revalidatePath("/en/blog");
+  revalidatePath("/pl");
+  revalidatePath("/en");
   return { error: null };
 }
 
@@ -105,5 +111,7 @@ export async function togglePostPublished(id: string, published: boolean) {
   revalidatePath("/admin");
   revalidatePath("/pl/blog");
   revalidatePath("/en/blog");
+  revalidatePath("/pl");
+  revalidatePath("/en");
   return { error: null };
 }

@@ -62,7 +62,8 @@
     "latestTitle": "Najnowsze wpisy",
     "latestSubtitle": "Z bloga",
     "viewAll": "Zobacz wszystkie",
-    "backToBlog": "Wróć do bloga"
+    "backToBlog": "Wróć do bloga",
+    "totalPosts": "wpisów"
   },
   "snake": {
     "pageTitle": "Snake — nowosielski.ai",
