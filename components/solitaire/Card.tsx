@@ -70,18 +70,18 @@ const SolitaireCard = memo(function SolitaireCard({
       transition={{ duration: 0.4 }}
     >
       <div className="absolute top-0.5 left-1 flex flex-col items-center leading-none" style={{ color }}>
-        <span className="text-[11px] font-bold">{card.rank}</span>
-        <span className="text-[9px] -mt-0.5">{symbol}</span>
+        <span className="text-base font-bold leading-tight">{card.rank}</span>
+        <span className="text-sm -mt-0.5">{symbol}</span>
       </div>
 
       <div className="absolute inset-0 flex items-center justify-center" style={{ color }}>
         {isFaceCard ? (
           <div className="flex flex-col items-center leading-none">
-            <span className="text-2xl">{FACE_CARD_DISPLAY[card.rank]}</span>
-            <span className="text-sm -mt-0.5">{symbol}</span>
+            <span className="text-4xl">{FACE_CARD_DISPLAY[card.rank]}</span>
+            <span className="text-lg -mt-0.5">{symbol}</span>
           </div>
         ) : (
-          <span className="text-2xl">{symbol}</span>
+          <span className="text-4xl">{symbol}</span>
         )}
       </div>
 
@@ -89,8 +89,8 @@ const SolitaireCard = memo(function SolitaireCard({
         className="absolute bottom-0.5 right-1 flex flex-col items-center leading-none rotate-180"
         style={{ color }}
       >
-        <span className="text-[11px] font-bold">{card.rank}</span>
-        <span className="text-[9px] -mt-0.5">{symbol}</span>
+        <span className="text-base font-bold leading-tight">{card.rank}</span>
+        <span className="text-sm -mt-0.5">{symbol}</span>
       </div>
     </motion.div>
   );

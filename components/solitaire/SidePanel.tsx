@@ -43,7 +43,7 @@ const SidePanel = memo(function SidePanel({
         <PanelButton
           icon="↩"
           label="Undo"
-          badge={undosRemaining}
+          remaining={undosRemaining}
           onClick={onUndo}
           disabled={!isPlaying || undosRemaining <= 0}
         />
@@ -51,7 +51,7 @@ const SidePanel = memo(function SidePanel({
         <PanelButton
           icon="💡"
           label="Hint"
-          badge={hintsRemaining}
+          remaining={hintsRemaining}
           onClick={onHint}
           disabled={!isPlaying || hintsRemaining <= 0}
         />
@@ -82,7 +82,7 @@ const SidePanel = memo(function SidePanel({
           <ToolbarButton
             icon="↩"
             label="Undo"
-            badge={undosRemaining}
+            remaining={undosRemaining}
             onClick={onUndo}
             disabled={!isPlaying || undosRemaining <= 0}
           />
@@ -90,7 +90,7 @@ const SidePanel = memo(function SidePanel({
           <ToolbarButton
             icon="💡"
             label="Hint"
-            badge={hintsRemaining}
+            remaining={hintsRemaining}
             onClick={onHint}
             disabled={!isPlaying || hintsRemaining <= 0}
           />
@@ -109,72 +109,69 @@ const SidePanel = memo(function SidePanel({
 function PanelButton({
   icon,
   label,
-  badge,
+  remaining,
   onClick,
   disabled = false,
   highlight = false,
 }: {
   icon: string;
   label: string;
-  badge?: number;
+  remaining?: number;
   onClick: () => void;
   disabled?: boolean;
   highlight?: boolean;
 }) {
+  const displayLabel = remaining !== undefined ? `${label} (${remaining})` : label;
+
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      title={label}
-      className={`
-        relative w-12 h-12 rounded-full flex items-center justify-center
-        text-lg transition-all
-        ${highlight
-          ? 'bg-yellow-500/80 hover:bg-yellow-500 text-green-900'
-          : 'bg-green-900/60 hover:bg-green-800/80 text-green-200/80 hover:text-white'
-        }
-        ${disabled ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}
-      `}
-    >
-      {icon}
-      {badge !== undefined && badge > 0 && (
-        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-          {badge}
-        </span>
-      )}
-    </button>
+    <div className="flex flex-col items-center gap-1">
+      <button
+        onClick={onClick}
+        disabled={disabled}
+        title={displayLabel}
+        className={`
+          w-12 h-12 rounded-full flex items-center justify-center
+          text-lg transition-all
+          ${highlight
+            ? 'bg-yellow-500/80 hover:bg-yellow-500 text-green-900'
+            : 'bg-green-900/60 hover:bg-green-800/80 text-green-200/80 hover:text-white'
+          }
+          ${disabled ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}
+        `}
+      >
+        {icon}
+      </button>
+      <span className="text-[10px] text-green-400/50">{displayLabel}</span>
+    </div>
   );
 }
 
 function ToolbarButton({
   icon,
   label,
-  badge,
+  remaining,
   onClick,
   disabled = false,
 }: {
   icon: string;
   label: string;
-  badge?: number;
+  remaining?: number;
   onClick: () => void;
   disabled?: boolean;
 }) {
+  const displayLabel = remaining !== undefined ? `${label} (${remaining})` : label;
+
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       className={`
-        relative flex flex-col items-center gap-0.5 px-3 py-1
+        flex flex-col items-center gap-0.5 px-3 py-1
         ${disabled ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}
       `}
     >
       <span className="text-lg text-green-200/80">{icon}</span>
-      <span className="text-[10px] text-green-400/60">{label}</span>
-      {badge !== undefined && badge > 0 && (
-        <span className="absolute -top-0.5 right-1 bg-red-500 text-white text-[9px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">
-          {badge}
-        </span>
-      )}
+      <span className="text-[10px] text-green-400/60">{displayLabel}</span>
     </button>
   );
 }

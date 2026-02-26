@@ -57,8 +57,11 @@ const StockAndWaste = memo(function StockAndWaste({
         )}
       </div>
 
-      {/* Waste */}
-      <div className="relative card-size">
+      {/* Waste — fixed width so Draw 3 cascade never overflows */}
+      <div
+        className="relative"
+        style={{ width: 'var(--card-w)', height: 'var(--card-h)' }}
+      >
         {waste.length === 0 ? (
           <EmptyPile />
         ) : drawMode === 3 ? (
@@ -77,8 +80,8 @@ const StockAndWaste = memo(function StockAndWaste({
             return (
               <div
                 key={card.id}
-                className="absolute"
-                style={{ left: i * 20, zIndex: i }}
+                className="absolute top-0"
+                style={{ left: i * 18, zIndex: i }}
               >
                 <SolitaireCard
                   card={{ ...card, faceUp: true }}
