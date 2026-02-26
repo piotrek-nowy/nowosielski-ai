@@ -21,7 +21,7 @@ export default async function HomePage({ params }: Props) {
         </div>
 
         {/* Sidebar — right column on desktop, between bio and posts on mobile */}
-        <aside className="order-2 flex items-start justify-center lg:row-span-3 lg:sticky lg:top-16 lg:self-start">
+        <aside className="order-2 flex items-start justify-center lg:row-span-3 lg:sticky lg:top-[84px] lg:self-start">
           <Sidebar />
         </aside>
 
