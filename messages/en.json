@@ -5,7 +5,8 @@
     "zadania": "Tasks",
     "snake": "Snake",
     "saper": "Minesweeper",
-    "szachy": "Chess"
+    "szachy": "Chess",
+    "solitaire": "Solitaire"
   },
   "home": {
     "greeting": "Hi, I'm Piotr",

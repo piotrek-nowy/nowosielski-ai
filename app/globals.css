@@ -51,3 +51,32 @@
     background-size: 48px 48px;
   }
 }
+
+@layer components {
+  :root {
+    --card-w: 64px;
+    --card-h: 90px;
+    --card-offset-down: 16px;
+    --card-offset-up: 24px;
+  }
+  @media (min-width: 640px) {
+    :root {
+      --card-w: 76px;
+      --card-h: 106px;
+      --card-offset-down: 19px;
+      --card-offset-up: 28px;
+    }
+  }
+  @media (min-width: 1024px) {
+    :root {
+      --card-w: 90px;
+      --card-h: 126px;
+      --card-offset-down: 22px;
+      --card-offset-up: 32px;
+    }
+  }
+  .card-size {
+    width: var(--card-w);
+    height: var(--card-h);
+  }
+}
