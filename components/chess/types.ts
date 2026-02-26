@@ -37,7 +37,7 @@ export type Board = (Piece | null)[][];
 export type GameMode = 'pvp' | 'pvc';
 export type Difficulty = 'easy' | 'medium' | 'hard';
 export type BoardSkin = 'brown' | 'blue' | 'green' | 'purple' | 'marble';
-export type PieceSkin = 'cburnett' | 'neo' | 'alpha' | 'fantasy';
+export type PieceSkin = 'cburnett' | 'staunty' | 'alpha' | 'fantasy';
 
 export interface TimeControl {
   minutes: number;

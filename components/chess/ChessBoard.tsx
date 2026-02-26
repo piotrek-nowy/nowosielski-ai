@@ -27,10 +27,17 @@ const STORAGE_KEY = "chess_game_state";
 const PREFS_KEY = "chess_preferences";
 const RECORDS_KEY = "chess_records";
 
+const VALID_PIECE_SKINS: PieceSkin[] = ["cburnett", "staunty", "alpha", "fantasy"];
+
 function loadPrefs(): Partial<GameConfig> {
   try {
     const raw = localStorage.getItem(PREFS_KEY);
-    return raw ? JSON.parse(raw) : {};
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    if (parsed.pieceSkin && !VALID_PIECE_SKINS.includes(parsed.pieceSkin)) {
+      parsed.pieceSkin = "cburnett";
+    }
+    return parsed;
   } catch { return {}; }
 }
 
@@ -567,6 +574,7 @@ export function ChessGame() {
                         alt={`${piece.color} ${piece.type}`}
                         className="w-[85%] h-[85%] object-contain pointer-events-none"
                         draggable={false}
+                        onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
                       />
                     )}
 
@@ -594,12 +602,7 @@ export function ChessGame() {
                         onClick={() => handlePromotion(type)}
                         className="w-14 h-14 rounded-lg bg-muted hover:bg-accent transition-colors flex items-center justify-center"
                       >
-                        <img
-                          src={getPieceImageUrl({ type, color: engine!.currentTurn }, pieceSkin)}
-                          alt={type}
-                          className="w-10 h-10"
-                          draggable={false}
-                        />
+                        <PiecePreview skin={pieceSkin} type={type} color={engine!.currentTurn} className="w-10 h-10" />
                       </button>
                     ))}
                   </div>
@@ -678,18 +681,13 @@ export function ChessGame() {
               <div>
                 <p className="text-xs text-muted-foreground mb-1">{t("pieceSkin")}</p>
                 <div className="flex gap-2">
-                  {(["cburnett", "neo", "alpha", "fantasy"] as PieceSkin[]).map(skin => (
+                  {(["cburnett", "staunty", "alpha", "fantasy"] as PieceSkin[]).map(skin => (
                     <button
                       key={skin}
                       onClick={() => { setPieceSkin(skin); setConfig(c => ({ ...c, pieceSkin: skin })); }}
                       className={`w-10 h-10 rounded border-2 transition-all flex items-center justify-center bg-muted ${pieceSkin === skin ? "border-foreground scale-110" : "border-transparent"}`}
                     >
-                      <img
-                        src={getPieceImageUrl({ type: "knight", color: "white" }, skin)}
-                        alt={skin}
-                        className="w-7 h-7"
-                        draggable={false}
-                      />
+                      <PiecePreview skin={skin} type="knight" color="white" className="w-7 h-7" />
                     </button>
                   ))}
                 </div>
@@ -857,18 +855,13 @@ function SetupScreen({ config, setConfig, boardSkin, setBoardSkin, pieceSkin, se
       <div className="w-full">
         <label className="text-sm text-muted-foreground">{t("pieceSkin")}</label>
         <div className="flex gap-2 mt-1">
-          {(["cburnett", "neo", "alpha", "fantasy"] as PieceSkin[]).map(skin => (
+          {(["cburnett", "staunty", "alpha", "fantasy"] as PieceSkin[]).map(skin => (
             <button
               key={skin}
               onClick={() => { setPieceSkin(skin); setConfig(c => ({ ...c, pieceSkin: skin })); }}
               className={`w-12 h-12 rounded border-2 transition-all flex items-center justify-center bg-muted ${pieceSkin === skin ? "border-foreground scale-110" : "border-border"}`}
             >
-              <img
-                src={getPieceImageUrl({ type: "knight", color: "white" }, skin)}
-                alt={skin}
-                className="w-8 h-8"
-                draggable={false}
-              />
+              <PiecePreview skin={skin} type="knight" color="white" className="w-8 h-8" />
             </button>
           ))}
         </div>
@@ -876,6 +869,26 @@ function SetupScreen({ config, setConfig, boardSkin, setBoardSkin, pieceSkin, se
 
       <Button className="w-full mt-2" size="lg" onClick={onStart}>{t("startGame")}</Button>
     </div>
+  );
+}
+
+/* ─── Piece Image with fallback ─── */
+
+function PiecePreview({ skin, type, color, className }: {
+  skin: PieceSkin; type: PieceType; color: PieceColor; className?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return <span className={`flex items-center justify-center text-[10px] font-mono text-muted-foreground ${className}`}>{skin}</span>;
+  }
+  return (
+    <img
+      src={getPieceImageUrl({ type, color }, skin)}
+      alt={skin}
+      className={`${className} object-contain`}
+      draggable={false}
+      onError={() => setFailed(true)}
+    />
   );
 }
 
