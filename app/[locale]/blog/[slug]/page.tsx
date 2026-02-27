@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { getPostBySlug } from "@/lib/blog";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
@@ -31,8 +32,11 @@ export default async function BlogPostPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
+  const t = await getTranslations("blog");
   const post = await getPostBySlug(slug);
   if (!post) notFound();
+
+  const dateLocale = locale === "pl" ? "pl-PL" : "en-US";
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24">
@@ -41,7 +45,7 @@ export default async function BlogPostPage({ params }: Props) {
         className="mb-8 inline-flex items-center gap-1.5 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
-        Blog
+        {t("backToBlog")}
       </Link>
 
       <header className="space-y-4">
@@ -54,7 +58,7 @@ export default async function BlogPostPage({ params }: Props) {
           </span>
           <span className="flex items-center gap-1">
             <Calendar className="h-3.5 w-3.5" />
-            {new Date(post.date).toLocaleDateString("pl-PL", {
+            {new Date(post.date).toLocaleDateString(dateLocale, {
               year: "numeric",
               month: "long",
               day: "numeric",
@@ -62,10 +66,7 @@ export default async function BlogPostPage({ params }: Props) {
           </span>
           <span className="flex items-center gap-1">
             <Clock className="h-3.5 w-3.5" />
-            {post.readingTime} min
-          </span>
-          <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase">
-            {post.lang}
+            {post.readingTime} {t("minRead")}
           </span>
         </div>
 
@@ -92,7 +93,7 @@ export default async function BlogPostPage({ params }: Props) {
         className="inline-flex items-center gap-1.5 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
-        Wróć do bloga
+        {t("backToBlog")}
       </Link>
     </article>
   );

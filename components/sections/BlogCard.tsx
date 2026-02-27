@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { getTranslations, getLocale } from "next-intl/server";
 import type { BlogPost } from "@/lib/blog";
 import { Calendar, Clock, Tag } from "lucide-react";
 
@@ -15,7 +16,11 @@ type Props = {
   post: BlogPost;
 };
 
-export function BlogCard({ post }: Props) {
+export async function BlogCard({ post }: Props) {
+  const t = await getTranslations("blog");
+  const locale = await getLocale();
+  const dateLocale = locale === "pl" ? "pl-PL" : "en-US";
+
   return (
     <article className="group relative flex flex-col gap-3 border-b border-border/60 pb-8">
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
@@ -27,7 +32,7 @@ export function BlogCard({ post }: Props) {
         </span>
         <span className="flex items-center gap-1">
           <Calendar className="h-3 w-3" />
-          {new Date(post.date).toLocaleDateString("pl-PL", {
+          {new Date(post.date).toLocaleDateString(dateLocale, {
             year: "numeric",
             month: "short",
             day: "numeric",
@@ -35,10 +40,7 @@ export function BlogCard({ post }: Props) {
         </span>
         <span className="flex items-center gap-1">
           <Clock className="h-3 w-3" />
-          {post.readingTime} min
-        </span>
-        <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase">
-          {post.lang}
+          {post.readingTime} {t("minRead")}
         </span>
       </div>
 
@@ -55,7 +57,7 @@ export function BlogCard({ post }: Props) {
         href={`/blog/${post.slug}`}
         className="mt-1 inline-flex items-center gap-1 font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
-        Czytaj dalej
+        {t("readMore")}
         <span className="transition-transform group-hover:translate-x-0.5">
           &rarr;
         </span>
