@@ -20,16 +20,16 @@ export default async function HomePage({ params }: Props) {
           <CurrentlyWorkingOn />
         </div>
 
-        <aside className="order-2 flex items-start justify-center lg:row-span-4 lg:sticky lg:top-[84px] lg:self-start">
+        <aside className="order-2 flex items-start justify-center lg:row-span-5 lg:sticky lg:top-[84px] lg:self-start">
           <Sidebar />
         </aside>
 
         <div className="order-3 pt-6 lg:pt-0">
-          <LatestPosts />
+          <NewsletterSection />
         </div>
 
         <div className="order-4 pt-6 lg:pt-0">
-          <NewsletterSection />
+          <LatestPosts />
         </div>
 
         <div className="order-5 pt-6 lg:pt-0">
