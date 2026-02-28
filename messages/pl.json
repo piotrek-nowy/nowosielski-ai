@@ -99,6 +99,14 @@
     "flagInstructions": "Aby postawić flagę 🚩 (oznaczenie miny): kliknij prawym przyciskiem myszy, albo na touchpadzie kliknij dwoma palcami. Ponowne kliknięcie zmienia flagę na znak zapytania ❓, a trzecie — usuwa oznaczenie.",
     "yourTime": "Twój czas"
   },
+  "newsletter": {
+    "title": "Bądź na bieżąco z tym, co tworzę",
+    "subtitle": "Refleksje o AI, vibe coding i budowaniu produktów — prosto na Twój email.",
+    "placeholder": "Twój adres email",
+    "button": "Zapisz mnie",
+    "success": "Dzięki za zapis! Do usłyszenia wkrótce.",
+    "error": "Coś poszło nie tak. Spróbuj ponownie."
+  },
   "chess": {
     "pageTitle": "Szachy — nowosielski.ai",
     "pageDescription": "Gra w szachy z AI i trybem dla dwóch graczy.",

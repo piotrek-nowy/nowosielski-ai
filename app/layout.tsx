@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { PostHogProvider } from "@/components/PostHogProvider";
+import { PostHogProvider } from "@/app/providers";
 
 type Props = {
   children: ReactNode;

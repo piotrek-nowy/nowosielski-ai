@@ -99,6 +99,14 @@
     "flagInstructions": "To place a flag 🚩 (mark a mine): right-click, or two-finger tap on a trackpad. Clicking again changes the flag to a question mark ❓, and a third click removes the mark.",
     "yourTime": "Your time"
   },
+  "newsletter": {
+    "title": "Stay in the loop",
+    "subtitle": "Thoughts on AI, vibe coding and building products — straight to your inbox.",
+    "placeholder": "Your email address",
+    "button": "Subscribe",
+    "success": "Thanks for subscribing! Talk soon.",
+    "error": "Something went wrong. Please try again."
+  },
   "chess": {
     "pageTitle": "Chess — nowosielski.ai",
     "pageDescription": "Chess game with AI and two-player mode.",
